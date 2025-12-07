@@ -77,7 +77,7 @@ I work across **R, Python, SAS, SQL, and HPC** to analyze large-scale datasets (
 
 ##  Resume
 
-➡️ (https://github.com/madhuharshithakakani/harshitha-portfolio/blob/main/MHKRESUME.pdf)
+➡️ [MHK RESUME] (https://github.com/madhuharshithakakani/harshitha-portfolio/blob/main/MHKRESUME.pdf)
 
 ---
 
