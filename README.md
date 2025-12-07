@@ -77,13 +77,14 @@ I work across **R, Python, SAS, SQL, and HPC** to analyze large-scale datasets (
 
 ##  Resume
 
-➡️ [Download my Resume (PDF)](MHK Resume.pdf)
+➡️ [Download my Resume (PDF)](MHKResume.pdf)
 
 ---
 
-## 📬 Contact
+## Contact
 
-- **Email:** `harshithakakani@gmail.com`  
+- **Email:** `harshithakakani@gmail.com`
+- **Cell Number:** `609-819-2548`
   
 
 ---
