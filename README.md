@@ -44,8 +44,6 @@ I work across **R, Python, SAS, SQL, and HPC** to analyze large-scale datasets (
 
 ## Featured Project Areas
 
-*(You can later create folders in this repo matching these sections and add code/reports.)*
-
 ###  Genetic Epidemiology & Bioinformatics
 - GWAS and fine-mapping pipelines  
 - Colocalization analyses of cardiometabolic traits  
