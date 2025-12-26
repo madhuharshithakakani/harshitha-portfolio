@@ -44,16 +44,6 @@ I work across **R, Python, SAS, SQL, and HPC** to analyze large-scale datasets (
 
 ## Featured Project Areas
 
-###  Genetic Epidemiology & Bioinformatics
-- GWAS and fine-mapping pipelines  
-- Colocalization analyses of cardiometabolic traits  
-- Polygenic risk scoring and Mendelian randomization examples  
-
-###  Infectious Disease & Infection Prevention
-- CTN-0094 / CTN-30 analyses (substance-use outcomes)  
-- Fungal pathogen (Candida auris) surveillance summaries  
-- Infection control audits: ATP, OR, and sink testing data  
-
 ###  Public Health Analytics & Coursework
 - Biostatistics (SAS + R) analyses  
 - Statistical computing projects (Quarto reports)  
