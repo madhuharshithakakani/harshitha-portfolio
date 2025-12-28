@@ -5,7 +5,7 @@ This repository section contains my **Final Project** for graduate-level Statist
 - **CTN-0094 report** (clinical trial / demographics + modeling + visualization)
 - **Laryngectomy report** (data quality issue identification + reporting + graphics)
 
-## What this demonstrates (Rubric-aligned)
+## What this demonstrates
 - Reports **render cleanly** with no errors/warnings and no stray/unformatted output
 - Code follows **tidyverse style** and is formatted consistently
 - Key results (counts, p-values, etc.) are inserted using **inline R code** (no hard-coded values)
