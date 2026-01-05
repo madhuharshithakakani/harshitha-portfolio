@@ -3,7 +3,7 @@
 
 Welcome to my professional GitHub portfolio. I am a Master of Public Health candidate with research experience in **computational biology, molecular/genetic epidemiology, infectious disease surveillance, and health policy analytics**.
 
-I work across **R, Python, SAS, SQL, and HPC** to analyze large-scale datasets (UK Biobank, NIH All of Us, dbGaP), and I’m passionate about using data to support **precision public health and health equity**.
+I work across **R, Tableau, Python, SAS, SQL, and HPC** to analyze large-scale datasets (UK Biobank, NIH All of Us, dbGaP), and I’m passionate about using data to support **precision public health and health equity**.
 
 ---
 
