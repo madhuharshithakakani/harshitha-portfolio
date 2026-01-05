@@ -1,7 +1,7 @@
 # Hi, I’m Harshitha Kakani!
-### MPH Candidate | Public Health Data Scientist | Bioinformatics & Genetic Epidemiology Researcher
+### Recent MPH Graduate | Public Health Data Scientist | Bioinformatics & Genetic Epidemiology Researcher
 
-Welcome to my professional GitHub portfolio. I am a Master of Public Health candidate with research experience in **computational biology, molecular/genetic epidemiology, infectious disease surveillance, and health policy analytics**.
+Welcome to my professional GitHub portfolio. I recently recieved my Master of Public Health from the University of Miami in December 2025 with research experience in **computational biology, molecular/genetic epidemiology, infectious disease surveillance, and health policy analytics**.
 
 I work across **R, Tableau, Python, SAS, SQL, and HPC** to analyze large-scale datasets (UK Biobank, NIH All of Us, dbGaP), and I’m passionate about using data to support **precision public health and health equity**.
 
