@@ -30,9 +30,9 @@ I work across **R, Tableau, Python, SAS, SQL, and HPC** to analyze large-scale d
 ## Skills
 
 **Programming & Tools**  
-- R, Python, SAS, SQL  
+- R, Python, SAS, SQL, Tableau  
 - Quarto, Git/GitHub, Bash, HPC (Slurm)  
-- PLINK, Bioconductor, basic TensorFlow/PyTorch
+- PLINK, Bioconductor, 
 
 **Methods & Domains**  
 - Regression modeling, survival analysis, prediction models  
