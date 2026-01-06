@@ -1,0 +1,213 @@
+---
+title: "Laryngectomy Analysis"
+format: pdf
+editor: visual
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+---
+title: "Laryngectomy Analysis"
+author: "Harshi"
+format: pdf
+---
+
+## Methods
+
+This analysis uses the **Open.Visualization.Academy** laryngectomy dataset.\
+All analyses were performed with:
+
+-   **R version:** `r R.version.string`
+-   **tidyverse version:** `r as.character(packageVersion("tidyverse"))`
+-   **OVA package version:** `r as.character(packageVersion("Open.Visualization.Academy"))`
+-   **glue version:** `r as.character(packageVersion("glue"))`
+
+Problem records were identified, summarized, and removed.\
+Graphics are labeled with who, when, and what.
+
+------------------------------------------------------------------------
+
+## Load & Clean Data
+
+```{r}
+library(tidyverse)
+library(Open.Visualization.Academy)
+library(glue)
+
+# Load dataset
+laryngectomy <- Open.Visualization.Academy::laryngectomy
+
+# Identify issues
+n_bad_fu <- laryngectomy |> filter(length_fu < 0) |> nrow()
+n_bad_death_fu <- laryngectomy |> filter((death == 1 | periop_death == 1) & is.na(death_fu)) |> nrow()
+n_bad_recur_sor <- laryngectomy |> filter(recur == 1 & !(sor %in% c("Locoregional","Distant"))) |> nrow()
+n_bad_recur_sor_2 <- laryngectomy |> filter(recur == 0 & !is.na(sor)) |> nrow()
+n_bad_recur_fu <- laryngectomy |> filter(recur == 1 & is.na(recur_fu)) |> nrow()
+
+# Cleaned dataset (NOT over-filtered)
+analysis <- laryngectomy |>
+  filter(length_fu >= 0 | is.na(length_fu)) |>   # do NOT remove NAs
+  filter(!((death == 1 | periop_death == 1) & is.na(death_fu))) |>
+  filter(!(recur == 1 & !(sor %in% c("Locoregional","Distant")))) |>
+  filter(!(recur == 0 & !is.na(sor))) |> 
+  filter(!(recur == 1 & is.na(recur_fu))) |> 
+  rowwise() |>
+  mutate(
+    complications_count = sum(c_across(fistula:med_comp) == 1, na.rm = TRUE)
+  ) |>
+  ungroup() |>
+  mutate(
+    hosp_stay_days = case_when(
+      hosp_stay == 1 ~ 3,
+      hosp_stay == 2 ~ 8,
+      hosp_stay == 3 ~ 16,
+      hosp_stay == 4 ~ 23,
+      .default = NA_integer_
+    )
+  )
+
+# Check dataset size
+n_clean <- nrow(analysis)
+
+# Plot theme
+my_theme <- theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    axis.title = element_text(face = "bold")
+  )
+
+```
+
+------------------------------------------------------------------------
+
+## Data Problems Summary
+
+| Check Description                      | Problems              |
+|----------------------------------------|-----------------------|
+| Negative follow-up days                | `r n_bad_fu`          |
+| Dead but missing death days            | `r n_bad_death_fu`    |
+| Recurrence but invalid site            | `r n_bad_recur_sor`   |
+| No recurrence but has site             | `r n_bad_recur_sor_2` |
+| Recurrence but missing recurrence days | `r n_bad_recur_fu`    |
+
+**Summary:**\
+This dataset contains `r n_bad_fu + n_bad_death_fu + n_bad_recur_sor + n_bad_recur_sor_2 + n_bad_recur_fu` total problem records.\
+These were removed before analysis.\
+The cleaned dataset contains **`r n_clean` patients.**
+
+------------------------------------------------------------------------
+
+# RESULTS
+
+## Figure 1 — Scatterplot
+
+```{r}
+ggplot(analysis, aes(complications_count, hosp_stay_days)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  my_theme +
+  labs(
+    title = glue("Scatterplot — Harshi — {Sys.Date()} (N = {n_clean})"),
+    x = "Complication Count",
+    y = "Hospital Stay (Days)"
+  )
+```
+
+------------------------------------------------------------------------
+
+## Figure 2 — Transparent Scatterplot
+
+```{r}
+ggplot(analysis, aes(complications_count, hosp_stay_days)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "lm", se = FALSE) +
+  my_theme +
+  labs(
+    title = glue("Transparent Scatterplot — Harshi — {Sys.Date()} (N = {n_clean})"),
+    x = "Complication Count",
+    y = "Hospital Stay (Days)"
+  )
+```
+
+------------------------------------------------------------------------
+
+## Figure 3 — Sunflower Plot
+
+(safe version — never errors)
+
+```{r}
+counted_data <- analysis |>
+  count(x_var = complications_count, y_var = hosp_stay_days)
+
+sunflower_segments <- counted_data |>
+  filter(n > 1) |>
+  rowwise() |>
+  mutate(
+    angles = list(seq(0, 2*pi, length.out = n)),
+    x_end = list(x_var + 0.05 * cos(angles)),
+    y_end = list(y_var + 0.05 * sin(angles))
+  ) |>
+  unnest(c(angles, x_end, y_end))
+
+ggplot() +
+  geom_segment(data = sunflower_segments,
+               aes(x = x_var, y = y_var, xend = x_end, yend = y_end),
+               alpha = 0.7) +
+  geom_point(data = counted_data,
+             aes(x = x_var, y = y_var, size = n)) +
+  my_theme +
+  labs(
+    title = glue("Sunflower Plot — Harshi — {Sys.Date()} (N = {n_clean})"),
+    x = "Complication Count",
+    y = "Hospital Stay (Days)"
+  )
+```
+
+------------------------------------------------------------------------
+
+## Figure 4 — Boxplot
+
+```{r}
+ggplot(analysis, aes(factor(complications_count), hosp_stay_days)) +
+  geom_boxplot() +
+  my_theme +
+  labs(
+    title = glue("Boxplot — Harshi — {Sys.Date()} (N = {n_clean})"),
+    x = "Complication Count",
+    y = "Hospital Stay (Days)"
+  )
+```
+
+------------------------------------------------------------------------
+
+## Figure 5 — Violin Plot
+
+```{r}
+ggplot(analysis, aes(factor(complications_count), hosp_stay_days)) +
+  geom_violin() +
+  my_theme +
+  labs(
+    title = glue("Violin Plot — Harshi — {Sys.Date()} (N = {n_clean})"),
+    x = "Complication Count",
+    y = "Hospital Stay (Days)"
+  )
+```

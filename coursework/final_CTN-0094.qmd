@@ -1,0 +1,101 @@
+---
+title: "CTN-004"
+format: pdf
+editor: visual
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+---
+title: "CTN-0094 Demographics Analysis"
+author: "Harshi"
+format: pdf
+---
+
+## Introduction
+
+-   Illicit opioid use is a major public health crisis associated with high overdose mortality (OpenAI, 2025).
+-   Medications for opioid use disorder (MOUD) improve retention and reduce mortality.
+-   The NIDA Clinical Trials Network (CTN) runs large, real-world clinical trials evaluating MOUD effectiveness.
+-   CTN project **CTN-0094** harmonizes data from projects **CTN-0027**, **CTN-0030**, and **CTN-0051** (public.ctn0094data, 2025).
+-   This report summarizes baseline demographics across the three randomized CTN studies.
+
+------------------------------------------------------------------------
+
+## Methods
+
+### Software versions
+
+-   **R version:** `r R.version.string`
+-   **public.ctn0094data:** `r as.character(packageVersion("public.ctn0094data"))`
+-   **tidyverse:** `r as.character(packageVersion("tidyverse"))`
+-   **gtsummary:** `r as.character(packageVersion("gtsummary"))`
+
+### Load & prepare data
+
+\`\`\`{r} library(tidyverse) library(public.ctn0094data) library(gtsummary) library(labelled) library(glue) library(scales)
+
+## Results
+
+### Table 1 — Demographic Summary
+
+\`\`\`{r} analysis \|\> select(-who) \|\> tbl_summary(by = project) \|\> modify_header(label \~ "Variable") \|\> bold_labels()
+
+# Load datasets
+
+demographics \<- public.ctn0094data::demographics randomization \<- public.ctn0094data::randomization
+
+# Track raw size
+
+n_demo_raw \<- nrow(demographics)
+
+# Identify FIRST randomization only
+
+first_rand \<- randomization \|\> arrange(who, randomization) \|\> filter(randomization == 1) \|\> distinct(who, .keep_all = TRUE)
+
+randomized_ids \<- first_rand \|\> select(who)
+
+# Missing data before filtering
+
+n_no_age \<- demographics \|\> filter(is.na(age)) \|\> nrow() n_no_sex \<- demographics \|\> filter(is.na(is_male)) \|\> nrow()
+
+# Create analysis dataset
+
+analysis \<- demographics \|\> semi_join(randomized_ids, by = "who") \|\> filter(!is.na(age), !is.na(is_male)) \|\> mutate( project = case_when( project == 27 \~ "CTN-0027", project == 30 \~ "CTN-0030", project == 51 \~ "CTN-0051", TRUE \~ as.character(project) ), project = factor(project, levels = c("CTN-0027","CTN-0030","CTN-0051")), is_male_factor = factor(if_else(is_male == 1, "Male", "Not Male")) ) \|\> labelled::set_variable_labels( who = "Participant ID", age = "Age at Intake", is_male_factor = "Assigned Male Sex at Birth" )
+
+n_analysis \<- nrow(analysis) n_excluded \<- n_demo_raw - n_analysis
+
+# Theme
+
+ctn_theme \<- theme_minimal(base_size = 14) + theme( plot.title = element_text(face = "bold"), axis.title = element_text(face = "bold") )
+
+# Sex proportion differences
+
+sex_by_project \<- analysis \|\> group_by(project) \|\> summarise(prop_male = mean(is_male_factor == "Male"))
+
+max_diff_male \<- max(sex_by_project$prop_male) - min(sex_by_project$prop_male) max_diff_male_fmt \<- percent(max_diff_male, accuracy = 0.1)
+
+clinically_meaningful \<- 0.05 is_meaningful \<- max_diff_male \>= clinically_meaningful
+
+# Chi-square test (no rstatix)
+
+chi_data \<- table(analysis$project, analysis$is_male_factor) chi_test \<- chisq.test(chi_data) p_chi \<- chi_test\$p.value p_chi_fmt \<- scales::pvalue(p_chi)
