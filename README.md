@@ -30,7 +30,7 @@ I work across **R, Tableau, Python, SAS, SQL, and HPC** to analyze large-scale d
 ## Skills
 
 **Programming & Tools**  
-- R, Python, SAS, SQL, Tableau  
+- R, SAS, SQL, Tableau  
 - Quarto, Git/GitHub, Bash, HPC (Slurm)  
 - PLINK, Bioconductor, 
 
