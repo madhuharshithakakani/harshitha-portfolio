@@ -32,7 +32,7 @@ I work across **R, Tableau, SAS, SQL, RedCap, and HPC** to analyze large-scale d
 **Programming & Tools**  
 - R, SAS, SQL, Tableau  
 - Quarto, Git/GitHub, Bash, HPC (Slurm)  
-- PLINK, Bioconductor, 
+- PLINK, Bioconductor, RedCap
 
 **Methods & Domains**  
 - Regression modeling, survival analysis, prediction models  
