@@ -3,7 +3,7 @@
 
 Welcome to my professional GitHub portfolio. I recently recieved my Master of Public Health from the University of Miami in December 2025 with research experience in **computational biology, molecular/genetic epidemiology, infectious disease surveillance, and health policy analytics**.
 
-I work across **R, Tableau, Python, SAS, SQL, and HPC** to analyze large-scale datasets (UK Biobank, NIH All of Us, dbGaP), and I’m passionate about using data to support **precision public health and health equity**.
+I work across **R, Tableau, SAS, SQL, and HPC** to analyze large-scale datasets (UK Biobank, NIH All of Us, dbGaP), and I’m passionate about using data to support **precision public health and health equity**.
 
 ---
 
